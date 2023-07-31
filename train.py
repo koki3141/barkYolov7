@@ -460,8 +460,12 @@ def train(hyp, opt, device, tb_writer=None):
 
             # Save model
             if (not opt.nosave) or (final_epoch and not opt.evolve):  # if save
+
+                
+                # to valid
+                  
+                
                 ckpt = {'epoch': epoch,
-                        'accuracy':valid(opt,last),
                         'best_fitness': best_fitness,
                         'training_results': results_file.read_text(),
                         'model': deepcopy(model.module if is_parallel(model) else model).half(),
@@ -471,9 +475,10 @@ def train(hyp, opt, device, tb_writer=None):
                         'wandb_id': wandb_logger.wandb_run.id if wandb_logger.wandb else None}
 
                 # Save last, best and delete
+
                 torch.save(ckpt, last)
-            
                 
+                ckpt['accuracy']=valid(opt,last)            
     
                 if accuracy_best<ckpt["accuracy"]:
                     accuracy_best=ckpt["accuracy"]
