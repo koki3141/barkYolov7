@@ -5,8 +5,8 @@ services:
     container_name: 'yolov7'
     volumes:
       - type: bind
-        source: ./yolov7/
-        target: /workspace/yolov7/
+        source: ./workspace
+        target: /workspace/
     deploy:
       resources:
         reservations:
