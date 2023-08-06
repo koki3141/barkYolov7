@@ -1,0 +1,8 @@
+{
+    "python.analysis.extraPaths": [
+        "./yolov7"
+    ],
+    "cSpell.words": [
+        "yolov"
+    ]
+}

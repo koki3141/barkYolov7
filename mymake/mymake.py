@@ -12,8 +12,14 @@ import torch
 from glob import glob
 import statistics
 from pathlib import Path
+
 import sys
 sys.path.append("yolov7/")
+
+import sys
+yolov7_path = os.path.join(os.path.dirname(__file__), "yolov7/")
+sys.path.append(yolov7_path)
+
 from utils.general import xyxy2xywh
 
 

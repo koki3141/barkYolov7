@@ -11,11 +11,16 @@ import torch
 import yaml
 from glob import glob
 from tqdm import tqdm
-import cv2
 from mymake.mymake import resave,mkdir,restore,reinit
 
-import sys
-sys.path.append("yolov7/")
+# relative
+# import sys
+# sys.path.append("yolov7/")
+
+# absolute
+yolov7_path = os.path.join(os.path.dirname(__file__), "yolov7/")
+sys.path.append(yolov7_path)
+
 from models.experimental import attempt_load
 from utils.datasets import create_dataloader
 from utils.general import coco80_to_coco91_class, check_dataset, check_file, check_img_size, check_requirements, \
