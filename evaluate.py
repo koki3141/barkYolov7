@@ -5,16 +5,18 @@ from pathlib import Path
 
 class Setting:
     def __init__(self):
-        self.train_project="20221011" # weight
+        self.train_project="20221011" # weight 20221011 8ahkmnuyy 22dip8barks
+        
         self.evaluate_project="20230705"
-        self.numbers=3
-        self.epoch_min=100
+        self.numbers=5
+        self.epoch_min=500
         self.epoch_step=100
         self.epoch_max=500
 
     def add(self,number_count,epoch_count):
-        self.number_count=str(number_count)
-        self.epoch_count=str(epoch_count)
+        self.train_number_count="0"#str(number_count)
+        self.train_epoch_count=str(epoch_count)
+        self.valid_number_count=str(number_count)
 
 setting=Setting()
 
@@ -24,12 +26,12 @@ for number_count in range(setting.numbers):
         class ValidSetting:
             def __init__(self,setting):
                 # savetype="best"
-                train_path=Path('runs')/'train'/setting.train_project/setting.number_count/'weights'
+                train_path=Path('runs')/'train'/setting.train_project/setting.train_number_count/'weights'
                 # self.weights=str(list(weight_path.glob(str(savetype)+"*"))[0])
-                self.weights = str(train_path / f"epoch_{setting.epoch_count}.pt")
+                self.weights = str(train_path / f"epoch_{setting.train_epoch_count}.pt")
                 
-                self.train_data= str(f"data/processed/{setting.train_project}/{setting.number_count}/dataset.yaml")
-                self.data = str(f"data/processed/{setting.evaluate_project}/{setting.number_count}/dataset.yaml")
+                self.train_data= str(f"data/processed/{setting.train_project}/{setting.train_number_count}/dataset.yaml")
+                self.data = str(f"data/processed/{setting.evaluate_project}/{setting.valid_number_count}/dataset.yaml")
                 
                 self.batch_size=16#helpp='size of each image batch')
                 self.img_size=[320]#helpp='inference size (pixels)')
@@ -49,9 +51,9 @@ for number_count in range(setting.numbers):
                 self.save_json=None#helpp='save a cocoapi-compatible JSON results file')
                 self.project='runs/valid/'#helpp='save to project/name')
                 if setting.train_project == setting.evaluate_project:
-                    self.name = str(f"{setting.train_project}/{setting.number_count}")
+                    self.name = str(f"{setting.train_project}/{setting.train_number_count}")
                 else:
-                    self.name = str(f"{setting.train_project}/{setting.number_count}/{setting.evaluate_project}")
+                    self.name = str(f"{setting.train_project}/{setting.train_number_count}/{setting.evaluate_project}/{setting.valid_number_count}")
                 self.exist_ok=True#helpp='existing project/name ok, do not increment')
                 self.no_trace=None#helpp='don`t trace model')
                 self.v5_metric=None#helpp='assume maximum recall as 1.0 in AP calculation')

@@ -14,7 +14,7 @@ from tqdm import tqdm
 from mymake.mymake import resave,mkdir,restore,reinit
 
 # relative
-# import sys
+import sys
 # sys.path.append("yolov7/")
 
 # absolute
@@ -200,7 +200,7 @@ def valid(train_opt,save_path,train_data=None,save_result=None):
             self.save_result=save_result
 
     opt=MyClass(train_opt,save_path,train_data,save_result)        
-            
+    print(opt.weights)
             
     #check_requirements()
 

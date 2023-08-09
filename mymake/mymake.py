@@ -42,8 +42,8 @@ def mkdir(path):
     except FileExistsError:
         shutil.rmtree(path)
         os.makedirs(path)
-def reinit(train_nc,valid_nc):
-    result_matrix=[np.zeros((valid_nc,train_nc+2)),np.zeros((valid_nc,train_nc)),np.zeros((train_nc)),0]
+def reinit(train_nc,valid_nc):        
+    result_matrix=[np.zeros((valid_nc,train_nc+2)),np.zeros((valid_nc,train_nc)),np.zeros((valid_nc)),0]
     iou_conf_scatter=[np.array([[],[]],dtype=float),np.array([[],[]],dtype=float),np.array([[],[]],dtype=float)]
     back_img=[];nmatcls_img=[];subt_img=[]
     
@@ -188,9 +188,14 @@ def resave(train_names,valid_names, result_matrix,save_dir,back_img,nmatcls_img,
         confusion_matrix(result_matrix=result_matrix[0],deresult_matrix=result_matrix[2],
                             xcls_list=train_names+['background','nothing'],ycls_list=valid_names,xlabel='predict',ylabel='Ture',save_dir=save_dir,file_name='devresult_matrix')
         
-        confusion_matrix(result_matrix=np.delete(result_matrix[0],result_matrix[0].shape[1]-1,1),deresult_matrix=result_matrix[2],
+        last_two_columns_sum=result_matrix[0][:,-1]+result_matrix[0][:,-2]
+        result_matrix_delete_last_two = np.delete(result_matrix[0], [-1, -2], axis=1)
+        result_matrix_insert_sum = np.insert(result_matrix_delete_last_two,result_matrix_delete_last_two.shape[1], last_two_columns_sum, axis=1)
+
+        confusion_matrix(result_matrix=result_matrix_insert_sum ,deresult_matrix=result_matrix[2],
                             xcls_list=train_names+['background'],ycls_list=valid_names,xlabel='predict',ylabel='Ture',save_dir=save_dir,file_name='result_matrix')
         
+
         confusion_matrix(result_matrix=result_matrix[1],deresult_matrix=result_matrix[2],
                             xcls_list=train_names,ycls_list=valid_names,xlabel='background',ylabel='Ture',save_dir=save_dir,file_name='subthreshold_result_matrix')
         plt.rcParams['font.family'] ='sans-serif'#使用するフォント
