@@ -50,6 +50,7 @@ for number_count in range(setting.numbers):
                 self.save_conf=None#helpp='save confidences in --save-txt labels')
                 self.save_json=None#helpp='save a cocoapi-compatible JSON results file')
                 self.project='runs/valid/'#helpp='save to project/name')
+                
                 self.name = str(f"{setting.valid_project}/{setting.valid_number_count}/{setting.train_project}/{setting.train_number_count}")
                 self.exist_ok=True#helpp='existing project/name ok, do not increment')
                 self.no_trace=None#helpp='don`t trace model')
