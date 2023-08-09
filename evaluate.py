@@ -7,7 +7,7 @@ class Setting:
     def __init__(self):
         self.train_project="20221011" # weight 20221011 8ahkmnuyy 22dip8barks
         
-        self.evaluate_project="20230705"
+        self.valid_project="20230705"
         self.numbers=5
         self.epoch_min=500
         self.epoch_step=100
@@ -31,7 +31,7 @@ for number_count in range(setting.numbers):
                 self.weights = str(train_path / f"epoch_{setting.train_epoch_count}.pt")
                 
                 self.train_data= str(f"data/processed/{setting.train_project}/{setting.train_number_count}/dataset.yaml")
-                self.data = str(f"data/processed/{setting.evaluate_project}/{setting.valid_number_count}/dataset.yaml")
+                self.data = str(f"data/processed/{setting.valid_project}/{setting.valid_number_count}/dataset.yaml")
                 
                 self.batch_size=16#helpp='size of each image batch')
                 self.img_size=[320]#helpp='inference size (pixels)')
@@ -50,10 +50,7 @@ for number_count in range(setting.numbers):
                 self.save_conf=None#helpp='save confidences in --save-txt labels')
                 self.save_json=None#helpp='save a cocoapi-compatible JSON results file')
                 self.project='runs/valid/'#helpp='save to project/name')
-                if setting.train_project == setting.evaluate_project:
-                    self.name = str(f"{setting.train_project}/{setting.train_number_count}")
-                else:
-                    self.name = str(f"{setting.train_project}/{setting.train_number_count}/{setting.evaluate_project}/{setting.valid_number_count}")
+                self.name = str(f"{setting.valid_project}/{setting.valid_number_count}/{setting.train_project}/{setting.train_number_count}")
                 self.exist_ok=True#helpp='existing project/name ok, do not increment')
                 self.no_trace=None#helpp='don`t trace model')
                 self.v5_metric=None#helpp='assume maximum recall as 1.0 in AP calculation')
