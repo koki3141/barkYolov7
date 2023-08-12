@@ -40,13 +40,16 @@ class MeanValid:
         mkdir(self.setting.mean_save_path)
             
     def mean_accuracy(self):
-        mean_data,data_list=MeanValid.process_data(self,self.setting.save_file.accuracy_file)
-        df = pd.DataFrame(data_list+mean_data, index = [ 'i.', 'ii.', 'iii.' ],columns = ['Names'])
-        np.savetxt(f"{self.setting.mean_save_path}/accuracy.txt",np.array([mean_data]))
+        data_group=MeanValid.process_data(self,self.setting.save_file.accuracy_file)
+        index_names=list(range(Setting.epoch_min,(Setting.epoch_max+Setting.epoch_step),Setting.epoch_step))
+        columns_names=list(range(0,Setting.numbers))
+        df = pd.DataFrame(data_group.data_group_array, index = index_names,columns = columns_names)
+        df.to_csv(f"{self.setting.mean_save_path}/accuracy.csv")
         return mean_data
             
     def mean_confusion_matrix(self):
-        mean_data,data_list=MeanValid.process_data(self,self.setting.save_file.confusion_matrix_file)
+        data_group=MeanValid.process_data(self,self.setting.save_file.confusion_matrix_file)
+        mean_data=data_group.data_mean
         
         with open(self.setting.train_data) as f:
             xcls_list = yaml.load(f, Loader=yaml.SafeLoader)['names']+['background']
@@ -93,8 +96,9 @@ class MeanValid:
                 self.data_array=data_array
                 self.data_mean=np.mean(data_array)
                 self.data_std=np.std(data_array)
-                
-        return mean_data,data_list
+                self.data_group_array=np.hstack((DataGroup.data_array,np.array([DataGroup.data_mean]),np.array([DataGroup.data_std])))
+        data_group=DataGroup(data_array)
+        return data_group
         
 
         
