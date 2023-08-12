@@ -37,6 +37,7 @@ def accuracy_plot_save(accuracy_list,epochs,epoch_accuracy_best,accuracy_best,sa
 
 
 def mkdir(path):
+    path=Path(path)
     try:
         os.makedirs(path,exist_ok=False)
     except FileExistsError:
@@ -177,8 +178,8 @@ def resave(train_names,valid_names, result_matrix,save_dir,back_img,nmatcls_img,
                 yticklabels=ycls_list).set_facecolor((1, 1, 1))
         fig.axes[0].set_xlabel(xlabel)
         fig.axes[0].set_ylabel(ylabel)
-        plt.savefig(save_dir/('normalize_'+file_name+'.jpg'))
-        np.savetxt(save_dir/("normalize_"+file_name+".csv"), result_matrix, delimiter=",")
+        plt.savefig(save_dir/('normalize_'+file_name+'.jpg'), dpi=150)
+        np.savetxt(save_dir/("normalize_"+file_name+".csv"), normalize_result_matrix, delimiter=",")
     if save_result==True:
         int_nc=len(train_names)   
         save_dir=to_pathlib(save_dir)

@@ -19,7 +19,7 @@ class Data:
     def __init__(self, folderName, depths, numOfDatasets):
 
         self.originalPath = Path("data")/"original"/folderName
-        self.outputPath = Path("data")/"processed"/folderName
+        self.outputPath = Path("data")/"processed"/(folderName+'1')
 
         folderDepths = len(self.originalPath.parts)+depths
         self.classPaths = [i for i in list(
@@ -57,7 +57,7 @@ class Data:
                 index=self.classNames, columns=['number of sheets']))
 
     def divTrainValid(self):
-        div0 = int(self.minCount*2/3)*0
+        div0 = int(self.minCount*2/3)
         div1 = int(self.minCount)
 
         mkdir(self.outputPath)
@@ -125,4 +125,5 @@ numOfDatasets = 5
 subData = Data(folderName, folderDepth, numOfDatasets)
 
 
-subData.dataAnalysis()
+subData.divTrainValid()
+subData.mkCommand()

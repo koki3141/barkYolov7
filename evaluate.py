@@ -5,7 +5,7 @@ from pathlib import Path
 
 class Setting:
     def __init__(self):
-        self.train_project="20221011" # weight 20221011 8ahkmnuyy 22dip8barks
+        self.train_project="22dip8barks" # weight 20221011 8ahkmnuyy 22dip8barks
         
         self.valid_project="20230705"
         self.numbers=5
