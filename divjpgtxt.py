@@ -16,15 +16,28 @@ from os import path as osp
 
 
 class Data:
-    def __init__(self, folderName, depths, numOfDatasets):
+    def __init__(self, infolderName,outfolderName,depths, numOfDatasets):
 
-        self.originalPath = Path("data")/"original"/folderName
-        self.outputPath = Path("data")/"processed"/(folderName+'1')
+        self.originalPath = Path("data")/"original"/infolderName
+        self.outputPath = Path("data")/"processed"/(outfolderName)
 
-        folderDepths = len(self.originalPath.parts)+depths
-        self.classPaths = [i for i in list(
-            self.originalPath.glob('**')) if len(i.parts) == folderDepths]
-        self.classNames = [i.name for i in self.classPaths]
+        self.folderDepths = len(self.originalPath.parts)+depths
+        self.classPaths = sorted([i for i in list(
+            self.originalPath.glob('**')) if len(i.parts) == self.folderDepths])
+        
+        self.foloderMostDepths=len(self.originalPath.parts)+3
+        self.foloderMostDepths=sorted([i for i in list(
+            self.originalPath.glob('**')) if len(i.parts) == self.foloderMostDepths])
+        
+        if depths==1:
+            self.classNames =[i.name for i in self.classPaths]
+            
+        elif depths==2:
+            self.classNames = ['_'.join([i.parts[self.folderDepths-2],i.name]) for i in self.classPaths]
+        
+        else:
+            self.classNames = ['_'.join([i.parts[self.folderDepths-3],i.parts[self.folderDepths-2],i.name]) for i in self.classPaths]
+        
         self.classCounts = Data.check(self)
         self.minCount = min(self.classCounts)
 
@@ -33,13 +46,34 @@ class Data:
         self.numOfDatasets = numOfDatasets
 
         Data.checkExist(self.originalPath)
+        Data.connectFolderName(self)
         Data.dataAnalysis(self)
+        Data.connectFolderName(self)
+        
 
         # self.minCount=131
 
     def checkExist(self):
         assert self.exists(), f'"{str(self)}" does not exist'
-
+        
+    def connectFolderName(self):
+        
+        self.parentClassNames = ['_'.join([i.parts[self.folderDepths-3],i.parts[self.folderDepths-2],i.name]) for i in self.classPaths ]
+        self.barkNames = [i.parts[self.folderDepths-3] for i in self.classPaths ]
+        self.prefectreNames = [i.parts[self.folderDepths-2] for i in self.classPaths ]
+        self.barkNumberNames = [i.name for i in self.classPaths ]
+        
+        NumberOfClass=pd.DataFrame(np.array([self.barkNames,self.prefectreNames,self.barkNumberNames,self.classCounts]).T,
+                                   index=self.parentClassNames, columns=['barks','prefecture','barkNumber','number of images'])
+        NumberOfClass.to_csv('NumberOfClass.csv')
+    def remove(self,folder_number,if_state):
+        for i in self.classPaths:
+            if if_state==True:
+                if i.name==str(folder_number):
+                    shutil.rmtree(i)
+            else:
+                if i.name!=str(folder_number):
+                    shutil.rmtree(i)
     def check(self):
         imagefileCounts = [len(list(path.glob('**/*.jpg')))
                            for path in self.classPaths]
@@ -53,12 +87,22 @@ class Data:
         assert False, 'imageFile and textFile count do not match'
 
     def dataAnalysis(self):
-        print(pd.DataFrame(self.classCounts,
-                index=self.classNames, columns=['number of sheets']))
+        NumberOfClass=pd.DataFrame(self.classCounts,
+                index=self.classNames , columns=['number of images'])
+        print(NumberOfClass)
+        
+        
 
     def divTrainValid(self):
-        div0 = int(self.minCount*2/3)
-        div1 = int(self.minCount)
+        if 'train' in str(self.outputPath):
+            div0 = int(self.minCount)
+            div1 = int(self.minCount)*0
+        elif 'valid' in str(self.outputPath):
+            div0 = int(self.minCount)*0
+            div1 = int(self.minCount)
+        else:
+            div0 = int(self.minCount)*2/3
+            div1 = int(self.minCount)
 
         mkdir(self.outputPath)
         for num in tqdm(range(self.numOfDatasets)):
@@ -101,11 +145,11 @@ class Data:
         save_period = 100
         weight = "yolov7/weights/yolov7_training.pt"
 
-        command = "python train.py --device 0 --epochs {0} --batch-size {1} --img {2} --data {3}/dataset.yaml --weights {4} --name {3} --save_period {5};"
+        command = "python train.py --device {6} --epochs {0} --batch-size {1} --img {2} --data {3}/dataset.yaml --weights {4} --name {3} --save_period {5};"
 
         for num in range(self.numOfDatasets):
             print(command.format(epochs, batch_size, img_size, str(
-                Path(self.outputPath.name)/str(num)), weight, str(save_period)))
+                Path(self.outputPath.name)/str(num)), weight, str(save_period),str(num)))
 
 
 original_path = Path("data")/"original"
@@ -116,14 +160,27 @@ for dataset in datasets:
 
 
 
-folderName = "20230705"
 
-
+infolderName ="5_barks_1tree_fukuoka_train_2"
+"5_barks_1tree_fukuoka_train"
+"22bark_clean_valid"
+"original_clean_20211011"
+on_remove=False
+outfolderName=infolderName.replace("train",'valid')
+print(infolderName,outfolderName)
 folderDepth = 1
-numOfDatasets = 5
+numOfDatasets = 3
+pd.set_option("display.max_rows", None, "display.max_columns", None)
 
-subData = Data(folderName, folderDepth, numOfDatasets)
+subData = Data(infolderName,outfolderName, folderDepth, numOfDatasets)
 
+if on_remove==True:
+    folder_number=2
+    if_state=True
+    subData.remove(folder_number,if_state)
 
 subData.divTrainValid()
+print(subData.minCount)
+
 subData.mkCommand()
+

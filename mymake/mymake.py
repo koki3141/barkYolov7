@@ -101,15 +101,14 @@ def restore(txtpath,txtdata,imgpath,predn,conf_result,iou_result,result_matrix,b
     # else:
     #     corr_cls=txtdata[:,0].astype(int);corr_xywh=txtdata[:,1:].astype(float)
         
+    
     result_matrix[2][corr_cls]+=1
     #store max conf   
     if predn.nelement()==0:
         # not predn
         back_img+=[str(imgpath)]
-        result_matrix[0][corr_cls][-1]=+1
-    
+        result_matrix[0][corr_cls][-1]+=1
     else:
-        
         index=torch.argmax(predn[:,4])
         *predn_xyxy,predn_conf,predn_cls=predn[index,:].tolist()
         
@@ -117,13 +116,14 @@ def restore(txtpath,txtdata,imgpath,predn,conf_result,iou_result,result_matrix,b
         iou=calc_ious(resize(corr_xywh,imgsize.shape),np.array(predn_xywh))
 
         predn_cls=int(predn_cls)
-        if predn_conf>conf_result and iou_result<iou:
-            if train_names[predn_cls]==valid_names[corr_cls]:
-                result_matrix[0][corr_cls][predn_cls]+=1
+        
+        if predn_conf>=conf_result and iou_result<=iou:
+            result_matrix[0][corr_cls][predn_cls]+=1
+            if train_names[predn_cls] == valid_names[corr_cls]:
                 result_matrix[3]+=1
                 iou_conf_scatter[0]=np.concatenate([iou_conf_scatter[0], np.array([[iou],[predn_conf]],dtype=float)], 1)
+                
             else:
-                result_matrix[0][corr_cls][predn_cls]+=1
                 nmatcls_img+=[str(imgpath)]
                 iou_conf_scatter[1]=np.concatenate([iou_conf_scatter[1], np.array([[iou],[predn_conf]],dtype=float)], 1)
     
@@ -140,11 +140,6 @@ def restore(txtpath,txtdata,imgpath,predn,conf_result,iou_result,result_matrix,b
         
 
 def resave(train_names,valid_names, result_matrix,save_dir,back_img,nmatcls_img,subt_img,save_inc_img,iou_conf_scatter,save_result):
-    
-        
-    
-    
-  
     # mkdir new folder
     def to_pathlib(path):
         if isinstance(path, str):
@@ -164,7 +159,6 @@ def resave(train_names,valid_names, result_matrix,save_dir,back_img,nmatcls_img,
                          xcls_list=None,ycls_list=None,xlabel='predict',ylabel='Ture',save_dir=None,file_name='result_matrix'):
         
         normalize_result_matrix=result_matrix/deresult_matrix[:,np.newaxis]
-
        
         mask = result_matrix == 0
         sn.set(font_scale=1.0)
@@ -241,5 +235,11 @@ def resave(train_names,valid_names, result_matrix,save_dir,back_img,nmatcls_img,
         inc_save(nmatcls_img,"nmatcls",save_dir)
         inc_save(back_img+subt_img+nmatcls_img,'all',save_dir)
         
-    return result_matrix[3]/np.sum(result_matrix[0])
+        
+    accuracy=result_matrix[3]/np.sum(result_matrix[0])
+        
+    # with open(str(save_dir/'accuracy.txt'), 'w') as f:
+    #     f.write(str(accuracy))
+        
+    return accuracy
     
