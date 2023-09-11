@@ -67,7 +67,7 @@ class Data:
                                    index=self.parentClassNames, columns=['barks','prefecture','barkNumber','number of images'])
         NumberOfClass.to_csv('NumberOfClass.csv')
     def remove(self,folder_number,if_state):
-        for i in self.classPaths:
+        for i in self.foloderMostDepths:
             if if_state==True:
                 if i.name==str(folder_number):
                     shutil.rmtree(i)
@@ -161,12 +161,13 @@ for dataset in datasets:
 
 
 
-infolderName ="5_barks_1tree_fukuoka_train_2"
+infolderName ="8_barks_clean_train"
 "5_barks_1tree_fukuoka_train"
-"22bark_clean_valid"
+"8_bark_clean_valid"
 "original_clean_20211011"
 on_remove=False
-outfolderName=infolderName.replace("train",'valid')
+div=False
+outfolderName=infolderName.replace("8",'17')
 print(infolderName,outfolderName)
 folderDepth = 1
 numOfDatasets = 3
@@ -175,11 +176,13 @@ pd.set_option("display.max_rows", None, "display.max_columns", None)
 subData = Data(infolderName,outfolderName, folderDepth, numOfDatasets)
 
 if on_remove==True:
-    folder_number=2
-    if_state=True
+    folder_number=0
+    if_state=False
     subData.remove(folder_number,if_state)
+subData = Data(infolderName,outfolderName, folderDepth, numOfDatasets)
 
-subData.divTrainValid()
+if div==True:
+    subData.divTrainValid()
 print(subData.minCount)
 
 subData.mkCommand()

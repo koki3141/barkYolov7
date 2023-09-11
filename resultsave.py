@@ -15,17 +15,17 @@ from mymake import mkdir
 
 class Setting:
     def __init__(self):
-        self.train_project="5_barks_1tree_fukuoka_train" # weight 20221011 8ahkmnuyy 22dip8barks
+        self.train_project="17_barks_clean_train" # weight 20221011 8ahkmnuyy 22dip8barks
         self.train_numbers=3
-        self.valid_project="5_barks_1tree_fukuoka_valid"# 20230705
+        self.valid_project="17_barks_clean_train"# 20230705
         self.valid_numbers=3
         self.epoch_min=100
         self.epoch_step=100
         self.epoch_max=500
         self.accuracy_file="accuracy.csv"
         self.confusion_matrix_file="normalize_result_matrix.csv"
-        self.run_mean=False
         self.run_valid=False
+        self.run_mean=False
         self.accuracy_graph=True
         
     

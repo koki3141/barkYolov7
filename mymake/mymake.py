@@ -119,7 +119,7 @@ def restore(txtpath,txtdata,imgpath,predn,conf_result,iou_result,result_matrix,b
         
         if predn_conf>=conf_result and iou_result<=iou:
             result_matrix[0][corr_cls][predn_cls]+=1
-            if train_names[predn_cls] == valid_names[corr_cls]:
+            if train_names[predn_cls] in valid_names[corr_cls]:
                 result_matrix[3]+=1
                 iou_conf_scatter[0]=np.concatenate([iou_conf_scatter[0], np.array([[iou],[predn_conf]],dtype=float)], 1)
                 
