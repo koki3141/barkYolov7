@@ -227,13 +227,15 @@ def resave(train_names,valid_names, result_matrix,save_dir,back_img,nmatcls_img,
                 # cv2.imwrite(str(save_dir/'Not_predict'/folder_name/i.split('/')[-1]),im)
                 # Not able pre images save folder
                 
-        for i in ['all','subt','back','nmatcls']:
-            mkdir(save_dir/'Not_predict'/i)
-            
-        inc_save(back_img,"back",save_dir)
-        inc_save(subt_img,"subt",save_dir)
-        inc_save(nmatcls_img,"nmatcls",save_dir)
-        inc_save(back_img+subt_img+nmatcls_img,'all',save_dir)
+        # for i in ['all','subt','back','nmatcls']:
+        #     mkdir(save_dir/'Not_predict'/i)
+        atpath="back"
+        mkdir(save_dir/'Not_predict'/atpath)
+        print(str(save_dir/'Not_predict'/atpath))
+        inc_save(back_img,atpath,save_dir)
+        # inc_save(subt_img,"subt",save_dir)
+        # inc_save(nmatcls_img,"nmatcls",save_dir)
+        # inc_save(back_img+subt_img+nmatcls_img,'all',save_dir)
         
         
     accuracy=result_matrix[3]/np.sum(result_matrix[0])

@@ -177,7 +177,7 @@ def valid(train_opt,save_path,train_data=None,save_result=None):
             self.iou_thres=0.5#helpp='IOU threshold for NMS')
             self.conf_result=0.5
             self.iou_result=0.5
-            save_inc_img=False
+            self.save_inc_img=train_opt.save_inc_img
             self.task='val'#helpp='train, val, test, speed or study')
             self.device=train_opt.device#helpp='cuda device, i.e. 0 or 0,1,2,3 or cpu')
             self.single_cls=None#helpp='treat as single-class dataset')
@@ -198,7 +198,6 @@ def valid(train_opt,save_path,train_data=None,save_result=None):
             self.half_precision=True
             self.wandb_logger=None
             self.compute_loss=None
-            self.save_inc_img=False
             self.save_result=save_result
 
     opt=MyClass(train_opt,save_path,train_data,save_result)        

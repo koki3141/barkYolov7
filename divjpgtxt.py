@@ -47,9 +47,7 @@ class Data:
 
         Data.checkExist(self.originalPath)
         Data.connectFolderName(self)
-        Data.dataAnalysis(self)
-        Data.connectFolderName(self)
-        
+        Data.dataAnalysis(self)     
 
         # self.minCount=131
 
@@ -66,7 +64,7 @@ class Data:
         NumberOfClass=pd.DataFrame(np.array([self.barkNames,self.prefectreNames,self.barkNumberNames,self.classCounts]).T,
                                    index=self.parentClassNames, columns=['barks','prefecture','barkNumber','number of images'])
         NumberOfClass.to_csv('NumberOfClass.csv')
-    def remove(self,folder_number,if_state):
+    def remove(self,folder_number,if_state): 
         for i in self.foloderMostDepths:
             if if_state==True:
                 if i.name==str(folder_number):
@@ -161,22 +159,24 @@ for dataset in datasets:
 
 
 
-infolderName ="8_barks_clean_train"
+infolderName ="3ahy20221011"
+"5_barks_3tree_fukuoka_valid"
 "5_barks_1tree_fukuoka_train"
 "8_bark_clean_valid"
 "original_clean_20211011"
 on_remove=False
-div=False
+div=True
+mkcommand=True
 outfolderName=infolderName.replace("8",'17')
 print(infolderName,outfolderName)
 folderDepth = 1
-numOfDatasets = 3
+numOfDatasets = 5
 pd.set_option("display.max_rows", None, "display.max_columns", None)
 
 subData = Data(infolderName,outfolderName, folderDepth, numOfDatasets)
 
 if on_remove==True:
-    folder_number=0
+    folder_number=1
     if_state=False
     subData.remove(folder_number,if_state)
 subData = Data(infolderName,outfolderName, folderDepth, numOfDatasets)
@@ -184,6 +184,5 @@ subData = Data(infolderName,outfolderName, folderDepth, numOfDatasets)
 if div==True:
     subData.divTrainValid()
 print(subData.minCount)
-
-subData.mkCommand()
-
+if mkcommand==True:
+    subData.mkCommand()

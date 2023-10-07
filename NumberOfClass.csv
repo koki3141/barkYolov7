@@ -1,9 +1,18 @@
 ,barks,prefecture,barkNumber,number of images
-original_8_barks_clean_train_akaba,original,8_barks_clean_train,akaba,2799
-original_8_barks_clean_train_honnsugi,original,8_barks_clean_train,honnsugi,2442
-original_8_barks_clean_train_kizinn,original,8_barks_clean_train,kizinn,1558
-original_8_barks_clean_train_measa,original,8_barks_clean_train,measa,473
-original_8_barks_clean_train_ninnzinnba,original,8_barks_clean_train,ninnzinnba,1776
-original_8_barks_clean_train_urasebaru,original,8_barks_clean_train,urasebaru,613
-original_8_barks_clean_train_yabukuguri,original,8_barks_clean_train,yabukuguri,1210
-original_8_barks_clean_train_yamaguti,original,8_barks_clean_train,yamaguti,1705
+akaba_fukuoka_1,akaba,fukuoka,1,174
+akaba_nagasaki_1,akaba,nagasaki,1,212
+honnsugi_fukuoka_1,honnsugi,fukuoka,1,168
+honnsugi_nagasaki_1,honnsugi,nagasaki,1,202
+kizinn_fukuoka_1,kizinn,fukuoka,1,154
+kizinn_kagoshima_1,kizinn,kagoshima,1,140
+kizinn_miyazaki_1,kizinn,miyazaki,1,285
+measa_fukuoka_1,measa,fukuoka,1,131
+measa_miyazaki_1,measa,miyazaki,1,208
+ninnzinnba_fukuoka_1,ninnzinnba,fukuoka,1,261
+urasebaru_fukuoka_1,urasebaru,fukuoka,1,234
+urasebaru_miyazaki_1,urasebaru,miyazaki,1,147
+yabukuguri_fukuoka_1,yabukuguri,fukuoka,1,270
+yabukuguri_miyazaki_1,yabukuguri,miyazaki,1,246
+yabukuguri_nagasaki_1,yabukuguri,nagasaki,1,308
+yamaguti_fukuoka_1,yamaguti,fukuoka,1,213
+yamaguti_miyazaki_1,yamaguti,miyazaki,1,235

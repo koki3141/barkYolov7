@@ -15,17 +15,18 @@ from mymake import mkdir
 
 class Setting:
     def __init__(self):
-        self.train_project="17_barks_clean_train" # weight 20221011 8ahkmnuyy 22dip8barks
-        self.train_numbers=3
-        self.valid_project="17_barks_clean_train"# 20230705
-        self.valid_numbers=3
-        self.epoch_min=100
+        "22dip8barks"
+        self.train_project="8ahkmnuyy" # weight 20221011 8ahkmnuyy 22dip8barks
+        self.train_numbers=1
+        self.valid_project="3ahy20221011"# 20230705
+        self.valid_numbers=5
+        self.epoch_min=500
         self.epoch_step=100
         self.epoch_max=500
         self.accuracy_file="accuracy.csv"
         self.confusion_matrix_file="normalize_result_matrix.csv"
+        self.run_mean=True
         self.run_valid=False
-        self.run_mean=False
         self.accuracy_graph=True
         
     
@@ -58,7 +59,7 @@ class Setting:
         self.iou_thres=0.45#helpp='IOU threshold for NMS')
         self.conf_result=0.5
         self.iou_result=0.5
-        save_inc_img=False
+        self.save_inc_img=False
         self.task='val'#helpp='train, val, test, speed or study')
         self.single_cls=None#helpp='treat as single-class dataset')
         self.augment=None#helpp='augmented inference')
@@ -76,7 +77,6 @@ class Setting:
         self.half_precision=True
         self.wandb_logger=None
         self.compute_loss=None
-        self.save_inc_img=False
         self.save_result=True
 
 
