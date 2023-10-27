@@ -33,7 +33,7 @@ def accuracy_plot_save(accuracy_list,epochs,epoch_accuracy_best,accuracy_best,sa
     ax1.annotate('best({},{:.2f})'.format(str(epoch_accuracy_best),accuracy_best), xy=(epoch_accuracy_best,accuracy_best*0.999))# この行からテキストと矢印を追加
 
     plt.legend(loc='upper left')
-    plt.savefig(str(Path(save_path)/'accuracy.png'), dpi=150, bbox_inches='tight')
+    plt.savefig(str(Path(save_path)/'accuracy.svg'),bbox_inches='tight')
 
 
 def mkdir(path):
@@ -119,7 +119,7 @@ def restore(txtpath,txtdata,imgpath,predn,conf_result,iou_result,result_matrix,b
         
         if predn_conf>=conf_result and iou_result<=iou:
             result_matrix[0][corr_cls][predn_cls]+=1
-            if train_names[predn_cls] in valid_names[corr_cls]:
+            if valid_names[corr_cls] == train_names[predn_cls]:
                 result_matrix[3]+=1
                 iou_conf_scatter[0]=np.concatenate([iou_conf_scatter[0], np.array([[iou],[predn_conf]],dtype=float)], 1)
                 
@@ -172,7 +172,7 @@ def resave(train_names,valid_names, result_matrix,save_dir,back_img,nmatcls_img,
                 yticklabels=ycls_list).set_facecolor((1, 1, 1))
         fig.axes[0].set_xlabel(xlabel)
         fig.axes[0].set_ylabel(ylabel)
-        plt.savefig(save_dir/('normalize_'+file_name+'.jpg'), dpi=150)
+        plt.savefig(save_dir/('normalize_'+file_name+'.svg'))
         np.savetxt(save_dir/("normalize_"+file_name+".csv"), normalize_result_matrix, delimiter=",")
     if save_result==True:
         int_nc=len(train_names)   
@@ -213,7 +213,7 @@ def resave(train_names,valid_names, result_matrix,save_dir,back_img,nmatcls_img,
         plt.scatter(iou_conf_scatter[2][0], iou_conf_scatter[2][1], s=10, c="gray",
                             marker="o", alpha=0.3, label="background") #(6)散布図の描画
         plt.legend(bbox_to_anchor=(1.05, 1),loc='upper left', fontsize=10) # (7)凡例表示
-        plt.savefig(save_dir/('IoU_Confidence_Scatter.jpg'))
+        plt.savefig(save_dir/('IoU_Confidence_Scatter.svg'))
     
     
     if save_inc_img==True:

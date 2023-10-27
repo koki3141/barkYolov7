@@ -99,7 +99,7 @@ class Data:
             div0 = int(self.minCount)*0
             div1 = int(self.minCount)
         else:
-            div0 = int(self.minCount)*2/3
+            div0 = int(self.minCount*2/3)
             div1 = int(self.minCount)
 
         mkdir(self.outputPath)
@@ -159,15 +159,15 @@ for dataset in datasets:
 
 
 
-infolderName ="3ahy20221011"
+infolderName ="8_barks"
 "5_barks_3tree_fukuoka_valid"
 "5_barks_1tree_fukuoka_train"
 "8_bark_clean_valid"
 "original_clean_20211011"
 on_remove=False
-div=True
+div=False
 mkcommand=True
-outfolderName=infolderName.replace("8",'17')
+outfolderName=infolderName.replace("8",'8')
 print(infolderName,outfolderName)
 folderDepth = 1
 numOfDatasets = 5

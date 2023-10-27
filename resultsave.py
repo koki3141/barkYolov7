@@ -16,16 +16,16 @@ from mymake import mkdir
 class Setting:
     def __init__(self):
         "22dip8barks"
-        self.train_project="8ahkmnuyy" # weight 20221011 8ahkmnuyy 22dip8barks
+        self.train_project="8_barks"# weight 20221011 8ahkmnuyy 22dip8barks
         self.train_numbers=1
-        self.valid_project="3ahy20221011"# 20230705
+        self.valid_project="3_bark_only_nagasaki"# 20230705
         self.valid_numbers=5
-        self.epoch_min=500
+        self.epoch_min=100
         self.epoch_step=100
         self.epoch_max=500
         self.accuracy_file="accuracy.csv"
         self.confusion_matrix_file="normalize_result_matrix.csv"
-        self.run_mean=True
+        self.run_mean=False
         self.run_valid=False
         self.accuracy_graph=True
         
@@ -129,7 +129,7 @@ class MeanValid:
         yticklabels=ycls_list).set_facecolor((1, 1, 1))
         fig.axes[0].set_xlabel(xlabel)
         fig.axes[0].set_ylabel(ylabel)
-        plt.savefig(f'{self.setting.epoch_mean_save_path}/normalize_result_matrix.jpg',dpi=150)
+        plt.savefig(f'{self.setting.epoch_mean_save_path}/normalize_result_matrix.svg')
         np.savetxt(f"{self.setting.epoch_mean_save_path}/{self.setting.confusion_matrix_file}", mean_data, delimiter=",")
         
         return mean_data
@@ -185,7 +185,7 @@ if setting.run_mean==True:
 
 
 if setting.accuracy_graph==True:
-    colors = ['aqua', 'orange','red']
+    colors = ['aqua', 'orange','red','darkblue','green']
     epoch_list=list(range(setting.epoch_min,setting.epoch_max+setting.epoch_step,setting.epoch_step))
     def imgSet(xticks,min,max,figname):
         plt.xlabel("epoch")
@@ -195,14 +195,17 @@ if setting.accuracy_graph==True:
         #plt.figtext(0.515, -0.015,figname, ha='center')
         plt.legend(loc='lower right')
         print(figname)
-        plt.savefig(figname, dpi=150, bbox_inches='tight')
+        plt.savefig(figname)
 
     def minmax(min_value,max_value,array):
         min_value=min([min_value]+array)
         max_value=max([max_value]+array)
         return min_value,max_value
     min_value=1;max_value=0
-
+    
+    # figure, Axes init
+    plt.clf()
+    
     for valid_number_count in range(setting.valid_numbers):
         epoch_mean_list=[]
         for epoch_count in range(setting.epoch_min,setting.epoch_max+setting.epoch_step,setting.epoch_step):
@@ -213,4 +216,4 @@ if setting.accuracy_graph==True:
         print(max_value)
         plt.plot(epoch_list, epoch_mean_list ,color=colors[valid_number_count],label=valid_number_count)
 
-    imgSet(epoch_list,min_value,max_value,str(Path(setting.mean_save_path)/"accuracy.jpg"))
+    imgSet(epoch_list,min_value,max_value,str(Path(setting.mean_save_path)/"accuracy.svg"))

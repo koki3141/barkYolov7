@@ -68,14 +68,11 @@ def mkdir(path):
         
 
 def yolov7Dataset(tjf,ttf,vjf,vtf,savePath,classId):
-    
-        
-
 
     image_save(tjf,savePath[0])
-    txt_save(ttf,savePath [1],classId)
-    image_save(vjf,savePath [2])
-    txt_save(vtf,savePath [3],classId)
+    txt_save(ttf,savePath[1],classId)
+    image_save(vjf,savePath[2])
+    txt_save(vtf,savePath[3],classId)
     
     
 
